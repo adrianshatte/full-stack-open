@@ -1,23 +1,22 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import axios from "axios"
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import Persons from "./components/Persons"
 
-const Person = ({ name, number }) => {
-	return (
-		<li>
-			{name} {number}
-		</li>
-	)
-}
-
 const App = () => {
-	const [persons, setPersons] = useState([
-		{ name: "Arto Hellas", number: "0475666666" },
-	])
+	const [persons, setPersons] = useState([])
 	const [newName, setNewName] = useState("")
 	const [newNumber, setNewNumber] = useState("")
 	const [searchTerm, setSearchTerm] = useState("")
+
+	useEffect(() => {
+		axios //
+			.get("http://localhost:3001/persons")
+			.then((response) => {
+				setPersons(response.data)
+			})
+	}, [])
 
 	const addNewRecord = (event) => {
 		event.preventDefault()
